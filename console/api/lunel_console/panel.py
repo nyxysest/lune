@@ -586,4 +586,5 @@ render();
 </html>
 """
 
-router.add_api_route("/panel", lambda: HTMLResponse(PAGE), methods=["GET"], include_in_schema=False)
+# stealth: /panel public bast shod ta lo nare
+# router.add_api_route("/panel", lambda: HTMLResponse(PAGE), methods=["GET"], include_in_schema=False)
