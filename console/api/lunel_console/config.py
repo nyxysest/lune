@@ -43,6 +43,10 @@ class Settings:
     default_worker_node: str = os.environ.get("LUNEL_DEFAULT_WORKER", "local")
     # Worker API base for the default/local worker
     local_worker_url: str = os.environ.get("LUNEL_LOCAL_WORKER_URL", "http://127.0.0.1:9100")
+    # Stealth: secret panel path, e.g. /go-abc123 (default /panel)
+    hidden_path: str = os.environ.get("LUNEL_HIDDEN_PATH", "/panel")
+    # Decoy site name shown at /
+    decoy_name: str = os.environ.get("LUNEL_DECOY_NAME", "Nava Studio")
 
     def validate(self) -> list[str]:
         problems = []

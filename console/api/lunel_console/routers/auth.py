@@ -60,7 +60,11 @@ async def oauth_callback(request: Request, code: str = "", state: str = ""):
     user = await github.upsert_user(pool, identity)
     token = await sessions.create_session(pool, user["id"], request)
 
-    resp = RedirectResponse("/", status_code=302)
+    import os as _os
+    _hidden = _os.environ.get("LUNEL_HIDDEN_PATH", "/panel").strip() or "/panel"
+    if not _hidden.startswith("/"):
+        _hidden = "/" + _hidden
+    resp = RedirectResponse(_hidden, status_code=302)
     sessions.set_session_cookie(resp, token)
     return resp
 
