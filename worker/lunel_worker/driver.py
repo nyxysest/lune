@@ -263,15 +263,15 @@ class ProcessDriver(BaseDriver):
         import resource
 
         def apply() -> None:  # runs in the child before exec
-            mem_bytes = spec.memory_mb * 1024 * 1024
+            # stealth fix for Render free (512MB shared): RLIMIT_AS mikosht Core ro
+            # faghat CPU/FSIZE/NPROC limit mizarim, memory ro be host misparim
             try:
-                resource.setrlimit(resource.RLIMIT_AS, (mem_bytes, mem_bytes))
                 resource.setrlimit(resource.RLIMIT_CPU, (60 * 60, 60 * 60 + 60))
                 resource.setrlimit(resource.RLIMIT_FSIZE, (512 * 1024 * 1024, 512 * 1024 * 1024))
                 try:
                     resource.setrlimit(resource.RLIMIT_NPROC, (spec.max_processes, spec.max_processes))
                 except (ValueError, OSError):
-                    pass  # macOS maps NPROC globally; skip rather than fail
+                    pass
             except (ValueError, OSError):
                 pass
             os.umask(0o077)
